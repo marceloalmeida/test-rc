@@ -1,9 +1,9 @@
-def createRelease(tagName, commitID, repo, owner="JumiaAIG", name="", body="", draft=false, prerelease=false) {
+def createRelease(tagName, commitID, repo, owner="JumiaAIG", name="", body="", draft=false, prerelease=false, gitCredentials='jumia-integrations-token') {
     if (name == "") {
         name = tagName
     }
 
-    withCredentials([usernamePassword(credentialsId: 'jumia-integrations-token', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
+    withCredentials([usernamePassword(credentialsId: gitCredentials, usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
         String callAPI = """
         set +x && \
         curl -f -s -m 10 -X POST \
@@ -21,6 +21,8 @@ def createRelease(tagName, commitID, repo, owner="JumiaAIG", name="", body="", d
 
         status = sh(returnStatus: true, script: callAPI)
     }
+
+    // @todo: return hlink for associated release
 
     return status
 }
