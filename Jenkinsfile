@@ -14,7 +14,7 @@ node {
 
             status = lib_release.createRelease(tagName, commitID,"test-rc", "marcelosousaalmeida")
 
-            if status {
+            if (status == 0) {
                 currentBuild.description = "<a href=''>Release</a>"
             }
         }
