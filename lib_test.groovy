@@ -1,4 +1,6 @@
 def createRelease(tagName, commitID, repo, owner="JumiaAIG", name="", body="", draft=false, prerelease=false, gitCredentials='jumia-integrations-token') {
+    String releaseURL = ""
+
     if (name == "") {
         name = tagName
     }
@@ -16,15 +18,18 @@ def createRelease(tagName, commitID, repo, owner="JumiaAIG", name="", body="", d
                 "name": "${name}","body": "${body}",
                 "draft": ${draft},
                 "prerelease": ${prerelease}
-            }'
+            }' | \
+            jq -r ".html_url" > release_URL.txt
         """
 
         status = sh(returnStatus: true, script: callAPI)
     }
 
-    // @todo: return hlink for associated release
+    if (status == 0) {
+        releaseURL = readFile(encoding: 'UTF-8', file: './release_URL.txt')
+    }
 
-    return status
+    return releaseURL
 }
 
 this

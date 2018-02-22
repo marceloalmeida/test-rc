@@ -12,10 +12,10 @@ node {
             String tagName = env.BRANCH_NAME + '-' + env.BUILD_ID
             String commitID = sh(returnStdout: true, script: 'git log -1 --pretty=format:"%H"').trim()
 
-            status = lib_release.createRelease(tagName, commitID,"test-rc", "marcelosousaalmeida")
+            releaseURL = lib_release.createRelease(tagName, commitID, "test-rc", "marcelosousaalmeida")
 
-            if (status == 0) {
-                currentBuild.description = "<a href=''>Release</a>"
+            if (releaseURL != "") {
+                currentBuild.description = "<a href='${releaseURL}'>${tagName}</a>"
             }
         }
     } catch (err) {
