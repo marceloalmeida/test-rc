@@ -34,7 +34,7 @@ def createRelease(tagName, commitID, repo, owner="JumiaAIG", body="", name=tagNa
 }
 
 def getChangelog() {
-    String changelog = "Changelog:\\n"
+    String changelog = "Changelog:\\n\\n"
     Boolean emptyChanges = true
     def build = currentBuild
     int changeID = 1
@@ -51,7 +51,7 @@ def getChangelog() {
     }
 
     if (emptyChanges) {
-        changelog += "Empty changes."
+        changelog += "No changes since last release."
     }
 
     print(changelog.trim())
