@@ -56,6 +56,7 @@ def getChangelog() {
         }
         build = build.previousBuild
     }
+    print(changelog.trim())
 
     return changelog.trim()
 }
