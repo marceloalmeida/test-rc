@@ -43,7 +43,7 @@ def getChangelog() {
         for (int j = 0; j < entries.length; j++) {
             def entry = entries[j]
             echo "${changeID}. ${entry.msg}\n"
-            changelog += "* ${changeID}. ${entry.msg}\n"
+            changelog += "${changeID}. ${entry.msg}\n"
             changeID++
         }
     }
