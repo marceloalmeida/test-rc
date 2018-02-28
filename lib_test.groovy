@@ -38,6 +38,8 @@ def getChangelog() {
     def changeLogSets = currentBuild.changeSets
     int changeID = 1
 
+    print("Just a commit need")
+
     for (int i = 0; i < changeLogSets.size(); i++) {
         def entries = changeLogSets[i].items
         for (int j = 0; j < entries.length; j++) {
