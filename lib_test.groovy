@@ -15,7 +15,8 @@ def createRelease(tagName, commitID, repo, owner="JumiaAIG", name="", body="", d
             --data '{
                 "tag_name": "${tagName}",
                 "target_commitish": "${commitID}",
-                "name": "${name}","body": "${body}",
+                "name": "${name}",
+                "body": "${body}",
                 "draft": ${draft},
                 "prerelease": ${prerelease}
             }' | \
@@ -30,6 +31,23 @@ def createRelease(tagName, commitID, repo, owner="JumiaAIG", name="", body="", d
     }
 
     return releaseURL
+}
+
+def getChangelog() {
+    String changelog = "Changelog:\n"
+    def changeLogSets = currentBuild.changeSets
+
+    for (int i = 0; i < changeLogSets.size(); i++) {
+        def entries = changeLogSets[i].items
+        for (int j = 0; j < entries.length; j++) {
+            def entry = entries[j]
+            echo "${entry.commitId} by ${entry.author} on ${new Date(entry.timestamp)}: ${entry.msg}\n"
+            changelog = "${entry.commitId} by ${entry.author} on ${new Date(entry.timestamp)}: ${entry.msg}\n"
+        }
+    }
+
+    print(changelog.trim())
+    return changelog.trim()
 }
 
 this
