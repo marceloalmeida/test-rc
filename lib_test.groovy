@@ -35,28 +35,24 @@ def createRelease(tagName, commitID, repo, owner="JumiaAIG", body="", name=tagNa
 
 def getChangelog() {
     String changelog = "Changelog:\\n"
+    Boolean emptyChanges = true
     def build = currentBuild
-    def changeLogSets = currentBuild.changeSets
     int changeID = 1
-
-    //for (int i = 0; i < changeLogSets.size(); i++) {
-    //    def entries = changeLogSets[i].items
-    //    for (int j = 0; j < entries.length; j++) {
-    //        def entry = entries[j]
-    //        changelog += "${changeID}. ${entry.msg}\\n"
-    //        changeID++
-    //    }
-    //}
 
     while(build != null && build.result != 'SUCCESS') {
         for (changeLog in build.changeSets) {
             for(entry in changeLog.items) {
+                emptyChanges = true
                 changelog += "${changeID}. ${entry.msg}\\n"
+                changeID++
             }
         }
         build = build.previousBuild
     }
-    print(changelog.trim())
+
+    if (emptyChanges) {
+        changelog += "Empty changes."
+    }
 
     return changelog.trim()
 }
