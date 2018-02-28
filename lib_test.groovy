@@ -16,11 +16,11 @@ def createRelease(tagName, commitID, repo, owner="JumiaAIG", body="", name=tagNa
                 "tag_name": "${tagName}",
                 "target_commitish": "${commitID}",
                 "name": "${name}",
-                "body": "${body}",
+                "body": '${body}',
                 "draft": ${draft},
                 "prerelease": ${prerelease}
             }' | \
-            jq -r ".html_url" > release_URL.txt
+            jq -r ".html_url" | tee release_URL.txt
         """
 
         print(callAPI)
