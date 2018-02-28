@@ -7,20 +7,20 @@ def createRelease(tagName, commitID, repo, owner="JumiaAIG", body="", name=tagNa
 
     withCredentials([usernamePassword(credentialsId: gitCredentials, usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
         String callAPI = """
-        set +x && \
-        curl -f -s -m 10 -X POST \
-            --user ${GIT_USERNAME}:${GIT_PASSWORD} \
-            --url https://api.github.com/repos/${owner}/${repo}/releases \
-            --header "Content-Type: application/json" \
-            --data '{
-                "tag_name": "${tagName}",
-                "target_commitish": "${commitID}",
-                "name": "${name}",
-                "body": '${body}',
-                "draft": ${draft},
-                "prerelease": ${prerelease}
-            }' | \
-            jq -r ".html_url" | tee release_URL.txt
+            set +x && \
+            curl -f -s -m 10 -X POST \
+                --user ${GIT_USERNAME}:${GIT_PASSWORD} \
+                --url https://api.github.com/repos/${owner}/${repo}/releases \
+                --header "Content-Type: application/json" \
+                --data '{
+                    "tag_name": "${tagName}",
+                    "target_commitish": "${commitID}",
+                    "name": "${name}",
+                    "body": '${body}',
+                    "draft": ${draft},
+                    "prerelease": ${prerelease}
+                }' | \
+                jq -r ".html_url" | tee release_URL.txt
         """
 
         print(callAPI)
@@ -44,11 +44,12 @@ def getChangelog() {
         def entries = changeLogSets[i].items
         for (int j = 0; j < entries.length; j++) {
             def entry = entries[j]
-            echo "${changeID}. ${entry.msg}\n"
             changelog += "${changeID}. ${entry.msg}\n"
             changeID++
         }
     }
+
+    print(changelog.trim())
 
     return changelog.trim()
 }
