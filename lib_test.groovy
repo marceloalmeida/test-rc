@@ -54,4 +54,4 @@ def getChangelog() {
     return changelog.trim()
 }
 
-this
+return this
