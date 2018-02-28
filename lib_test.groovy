@@ -36,13 +36,15 @@ def createRelease(tagName, commitID, repo, owner="JumiaAIG", body="", name=tagNa
 def getChangelog() {
     String changelog = "Changelog:\n"
     def changeLogSets = currentBuild.changeSets
+    int changeID = 1
 
     for (int i = 0; i < changeLogSets.size(); i++) {
         def entries = changeLogSets[i].items
         for (int j = 0; j < entries.length; j++) {
             def entry = entries[j]
-            echo "${j}. ${entry.msg}\n"
-            changelog += "${j}. ${entry.msg}\n"
+            echo "${changeID}. ${entry.msg}\n"
+            changelog += "${changeID}. ${entry.msg}\n"
+            changeID++
         }
     }
 
