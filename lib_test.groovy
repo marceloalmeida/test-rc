@@ -16,7 +16,7 @@ def createRelease(tagName, commitID, repo, owner="JumiaAIG", body="", name=tagNa
                     "tag_name": "${tagName}",
                     "target_commitish": "${commitID}",
                     "name": "${name}",
-                    "body": '${body}',
+                    "body": "${body}",
                     "draft": ${draft},
                     "prerelease": ${prerelease}
                 }' | \
@@ -34,20 +34,28 @@ def createRelease(tagName, commitID, repo, owner="JumiaAIG", body="", name=tagNa
 }
 
 def getChangelog() {
-    String changelog = "Changelog:\n"
+    String changelog = "Changelog:\\n"
+    def build = currentBuild
     def changeLogSets = currentBuild.changeSets
     int changeID = 1
 
-    for (int i = 0; i < changeLogSets.size(); i++) {
-        def entries = changeLogSets[i].items
-        for (int j = 0; j < entries.length; j++) {
-            def entry = entries[j]
-            changelog += "${changeID}. ${entry.msg}\\n"
-            changeID++
-        }
-    }
+    //for (int i = 0; i < changeLogSets.size(); i++) {
+    //    def entries = changeLogSets[i].items
+    //    for (int j = 0; j < entries.length; j++) {
+    //        def entry = entries[j]
+    //        changelog += "${changeID}. ${entry.msg}\\n"
+    //        changeID++
+    //    }
+    //}
 
-    print(changelog.trim())
+    while(build != null && build.result != 'SUCCESS') {
+        for (changeLog in build.changeSets) {
+            for(entry in changeLog.items) {
+                changelog += "${changeID}. ${entry.msg}\\n"
+            }
+        }
+        build = build.previousBuild
+    }
 
     return changelog.trim()
 }
