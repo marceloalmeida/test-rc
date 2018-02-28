@@ -41,8 +41,8 @@ def getChangelog() {
         def entries = changeLogSets[i].items
         for (int j = 0; j < entries.length; j++) {
             def entry = entries[j]
-            echo "${entry.commitId} by ${entry.author} on ${new Date(entry.timestamp)}: ${entry.msg}\n"
-            changelog = "${entry.commitId} by ${entry.author} on ${new Date(entry.timestamp)}: ${entry.msg}\n"
+            echo "${j}. ${entry.msg}\n"
+            changelog = "${j}. ${entry.msg}\n"
         }
     }
 
