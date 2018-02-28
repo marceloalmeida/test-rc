@@ -23,8 +23,6 @@ def createRelease(tagName, commitID, repo, owner="JumiaAIG", body="", name=tagNa
                 jq -r ".html_url" | tee release_URL.txt
         """
 
-        print(callAPI)
-
         status = sh(returnStatus: true, script: callAPI)
     }
 
