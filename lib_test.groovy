@@ -46,7 +46,6 @@ def getChangelog() {
         }
     }
 
-    print(changelog.trim())
     return changelog.trim()
 }
 
