@@ -1,4 +1,4 @@
-def createRelease(tagName, commitID, repo, owner="JumiaAIG", name="", body="", draft=false, prerelease=false, gitCredentials='jumia-integrations-token') {
+def createRelease(tagName, commitID, repo, owner="JumiaAIG", body="", name=tagName, draft=false, prerelease=false, gitCredentials='jumia-integrations-token') {
     String releaseURL = ""
 
     if (name == "") {
