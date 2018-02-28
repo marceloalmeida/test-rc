@@ -42,7 +42,7 @@ def getChangelog() {
     while(build != null && build.result != 'SUCCESS') {
         for (changeLog in build.changeSets) {
             for(entry in changeLog.items) {
-                emptyChanges = true
+                emptyChanges = false
                 changelog += "${changeID}. ${entry.msg}\\n"
                 changeID++
             }
@@ -53,6 +53,8 @@ def getChangelog() {
     if (emptyChanges) {
         changelog += "Empty changes."
     }
+
+    print(changelog.trim())
 
     return changelog.trim()
 }
